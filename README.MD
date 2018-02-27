@@ -79,10 +79,12 @@ Vue-Layout
     |   |  ├─theme-dark.css              //Muse-UI的自定义主题（红色风格）
     |   |  ├─highlight                   //代码格式化后的高亮样式
 
- 
+ # 如何拓展UI可视化组件？
+- 1.如果是新增的UI，先在main.js中引入，然后在./src/components/template路径下，创建对应的UI的文件夹（如果没有）；
+- 2.copy已有的类似组件。假设你要拓展mint-ui的导航栏组件，你可以直接复制muse-ui的导航栏（./src/components/template/Muse-UI/App Bar.js）到Mint-UI目录中，修改文件名为Header.js、以及修改其中的部分代码即可：
 
 
-  [1]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/static/banner.JPG
+  [1]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/static/banner.JPG
   [2]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/static/demo1.gif
   [3]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/static/demo2.gif
 
