@@ -11,108 +11,109 @@
             <mu-sub-header style="white-space:nowrap;">- 组件</mu-sub-header>
         </mu-content-block>
         <div v-if="activeUI === 'Muse-UI'">
-            <ul class="components-list">
+            <ul class="components-list" >
                 <!-- 导航栏 -->
                 <li draggable="true" @dragstart="dragStart" data-name="App Bar">
                     <t-mu-appbar />
                 </li>
-                <!--&lt;!&ndash; 栅格布局 &ndash;&gt;-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Grid">-->
-                    <!--<t_mu_shan_ge />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Text Field">-->
-                    <!--<t_mu_textfield />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Flat Button">-->
-                    <!--<t_mu_flat_button />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Raised Button">-->
-                    <!--<t_mu_raised_button />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Icon Button">-->
-                    <!--<t_mu_icon_button />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Icon">-->
-                    <!--<t_mu_icon />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Floating Action Button">-->
-                    <!--<t_mu_float_button />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Avatar">-->
-                    <!--<t_mu_avatar />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Chip">-->
-                    <!--<t_mu_chip />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Card Header">-->
-                    <!--<t_mu_card_header />-->
-                <!--</li>-->
+
+                <!-- 栅格布局 -->
+                <li draggable="true" @dragstart="dragStart" data-name="Grid">
+                    <t-mu-shan-ge />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Text Field">
+                    <t-mu-textfield />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Flat Button">
+                    <t-mu-flat-button />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Raised Button">
+                    <t-mu-raised-button />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Icon Button">
+                    <t-mu-icon-button />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Icon">
+                    <t-mu-icon />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Floating Action Button">
+                    <t-mu-float-button />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Avatar">
+                    <t-mu-avatar />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Chip">
+                    <t-mu-chip />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Card Header">
+                    <t-mu-card-header />
+                </li>
                 <li draggable="true" @dragstart="dragStart" data-name="Sub Header">
                     <t-mu-sub-header />
                 </li>
-                <!--<li draggable="true" @dragstart="dragStart" data-name="List">-->
-                    <!--<t_mu_list />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="List Item">-->
-                    <!--<t_mu_list_item />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Table">-->
-                    <!--<t_mu_grid />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Date Picker">-->
-                    <!--<t_mu_datepicker />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Time Picker">-->
-                    <!--<t_mu_timepicker/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Badge">-->
-                    <!--<t_mu_badge/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Bottom Nav">-->
-                    <!--<t_mu_bottom_nav/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Tabs">-->
-                    <!--<t_mu_tabs/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Breadcrumb">-->
-                    <!--<t_mu_breadcrumb/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Checkbox">-->
-                    <!--<t_mu_checkbox />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Radio">-->
-                    <!--<t_mu_radio/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Switch">-->
-                    <!--<t_mu_switch/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Select Field">-->
-                    <!--<t_mu_select_field/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Paper">-->
-                    <!--<t_mu_paper/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Pagination">-->
-                    <!--<t_mu_pagination/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Slider">-->
-                    <!--<t_mu_slider/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Divider">-->
-                    <!--<t_mu_divider/>-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Linear Progress">-->
-                    <!--<t_mu_linear_progress />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Circular Progress">-->
-                    <!--<t_mu_circular_progress />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Card">-->
-                    <!--<t_mu_card />-->
-                <!--</li>-->
-                <!--<li draggable="true" @dragstart="dragStart" data-name="Back Top">-->
-                    <!--<t_mu_back_top/>-->
-                <!--</li>-->
+                <li draggable="true" @dragstart="dragStart" data-name="List">
+                    <t-mu-list />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="List Item">
+                    <t-mu-list-item />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Table">
+                    <t-mu-grid />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Date Picker">
+                    <t-mu-datepicker />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Time Picker">
+                    <t-mu-timepicker/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Badge">
+                    <t-mu-badge/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Bottom Nav">
+                    <t-mu-bottom-nav/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Tabs">
+                    <t-mu-tabs/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Breadcrumb">
+                    <t-mu-breadcrumb/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Checkbox">
+                    <t-mu-checkbox />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Radio">
+                    <t-mu-radio/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Switch">
+                    <t-mu-switch/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Select Field">
+                    <t-mu-select-field/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Paper">
+                    <t-mu-paper/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Pagination">
+                    <t-mu-pagination/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Slider">
+                    <t-mu-slider/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Divider">
+                    <t-mu-divider/>
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Linear Progress">
+                    <t-mu-linear-progress />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Circular Progress">
+                    <t-mu-circular-progress />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Card">
+                    <t-mu-card />
+                </li>
+                <li draggable="true" @dragstart="dragStart" data-name="Back Top">
+                    <t-mu-back-top/>
+                </li>
             </ul>
         </div>
 
@@ -142,11 +143,48 @@
    * 获取对应的MuseUI组件集合
    */
 import museUiList from './list/muse-ui'
+import draggable_li from './draggable_li'
+
 
 export default {
     name: 'components',
     data() {
-        return {}
+        return {
+          t_mu_UIs:['t-mu-appbar',
+            // 't_mu_shan_ge',
+            // 't_mu_textfield',
+            // 't_mu_flat_button',
+            // 't_mu_icon_button',
+            // 't_mu_raised_button',
+            // 't_mu_float_button',
+            // 't_mu_avatar',
+            // 't_mu_icon',
+            // 't_mu_list',
+            // 't_mu_list_item',
+            // 't_mu_grid',
+            // 't_mu_datepicker',
+            // 't_mu_timepicker',
+            // 't_mu_badge',
+            // 't_mu_bottom_nav',
+            // 't_mu_tabs',
+            // 't_mu_breadcrumb',
+            // 't_mu_checkbox',
+            // 't_mu_radio',
+            // 't_mu_switch',
+            // 't_mu_select_field',
+            // 't_mu_pagination',
+            // 't_mu_slider',
+            // 't_mu_divider',
+            // 't_mu_linear_progress',
+            // 't_mu_circular_progress',
+            // 't_mu_back_top',
+            // 't_mu_chip',
+            // 't_mu_paper',
+            // 't_mu_card_header',
+            // 't_mu_card',
+            't-mu-sub-header'
+          ]
+        }
     },
     mounted() {
 
@@ -189,6 +227,7 @@ export default {
         }
     },
     components: {
+      draggable_li,
         ...museUiList
     }
 }
