@@ -1,14 +1,9 @@
+<!--右侧组件列表-->
 <template>
     <section>
         <mu-content-block style="display:flex;">
             <mu-select-field :value="activeUI" @change="handleTabChange" autoWidth>
                 <mu-menu-item title="Muse-UI" value="Muse-UI">
-                </mu-menu-item>
-                <mu-menu-item title="Mint-UI" value="Mint-UI">
-                </mu-menu-item>
-                <mu-menu-item title="iView-UI" value="iView-UI">
-                </mu-menu-item>
-                <mu-menu-item title="Element-UI" value="Element-UI">
                 </mu-menu-item>
                 <mu-menu-item title="通用" value="Common">
                 </mu-menu-item>
@@ -19,211 +14,108 @@
             <ul class="components-list">
                 <!-- 导航栏 -->
                 <li draggable="true" @dragstart="dragStart" data-name="App Bar">
-                    <appbar />
+                    <t-mu-appbar />
                 </li>
-                <!-- 栅格布局 -->
-                <li draggable="true" @dragstart="dragStart" data-name="Grid">
-                    <shanGe />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Text Field">
-                    <textField />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Flat Button">
-                    <FlatButton />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Raised Button">
-                    <RaisedButton />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Icon Button">
-                    <iconButton />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Icon">
-                    <icon />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Floating Action Button">
-                    <floatingActionButton />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Avatar">
-                    <avatar />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Chip">
-                    <chip />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Card Header">
-                    <cardHeader />
-                </li>
+                <!--&lt;!&ndash; 栅格布局 &ndash;&gt;-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Grid">-->
+                    <!--<t_mu_shan_ge />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Text Field">-->
+                    <!--<t_mu_textfield />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Flat Button">-->
+                    <!--<t_mu_flat_button />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Raised Button">-->
+                    <!--<t_mu_raised_button />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Icon Button">-->
+                    <!--<t_mu_icon_button />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Icon">-->
+                    <!--<t_mu_icon />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Floating Action Button">-->
+                    <!--<t_mu_float_button />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Avatar">-->
+                    <!--<t_mu_avatar />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Chip">-->
+                    <!--<t_mu_chip />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Card Header">-->
+                    <!--<t_mu_card_header />-->
+                <!--</li>-->
                 <li draggable="true" @dragstart="dragStart" data-name="Sub Header">
-                    <subHeader />
+                    <t-mu-sub-header />
                 </li>
-                <li draggable="true" @dragstart="dragStart" data-name="List">
-                    <list />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="List Item">
-                    <listItem />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Table">
-                    <grid />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Date Picker">
-                    <datePicker />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Time Picker">
-                    <timePicker/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Badge">
-                    <badge/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Bottom Nav">
-                    <navigation/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Tabs">
-                    <tab/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Breadcrumb">
-                    <breadcrumb/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Checkbox">
-                    <checkBox />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Radio">
-                    <radio/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Switch">
-                    <swit/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Select Field">
-                    <selectField/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Paper">
-                    <paper/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Pagination">
-                    <pagination/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Slider">
-                    <slider/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Divider">
-                    <divider/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Linear Progress">
-                    <linearProgress />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Circular Progress">
-                    <circularProgress />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Card">
-                    <card />
-                </li>
-                <!--                 
-                <li draggable="true" @dragstart="dragStart" data-name="Back Top">
-                    <backTop/>
-                </li> 
-                -->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="List">-->
+                    <!--<t_mu_list />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="List Item">-->
+                    <!--<t_mu_list_item />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Table">-->
+                    <!--<t_mu_grid />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Date Picker">-->
+                    <!--<t_mu_datepicker />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Time Picker">-->
+                    <!--<t_mu_timepicker/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Badge">-->
+                    <!--<t_mu_badge/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Bottom Nav">-->
+                    <!--<t_mu_bottom_nav/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Tabs">-->
+                    <!--<t_mu_tabs/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Breadcrumb">-->
+                    <!--<t_mu_breadcrumb/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Checkbox">-->
+                    <!--<t_mu_checkbox />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Radio">-->
+                    <!--<t_mu_radio/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Switch">-->
+                    <!--<t_mu_switch/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Select Field">-->
+                    <!--<t_mu_select_field/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Paper">-->
+                    <!--<t_mu_paper/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Pagination">-->
+                    <!--<t_mu_pagination/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Slider">-->
+                    <!--<t_mu_slider/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Divider">-->
+                    <!--<t_mu_divider/>-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Linear Progress">-->
+                    <!--<t_mu_linear_progress />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Circular Progress">-->
+                    <!--<t_mu_circular_progress />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Card">-->
+                    <!--<t_mu_card />-->
+                <!--</li>-->
+                <!--<li draggable="true" @dragstart="dragStart" data-name="Back Top">-->
+                    <!--<t_mu_back_top/>-->
+                <!--</li>-->
             </ul>
         </div>
-        <div v-if="activeUI === 'Mint-UI'">
-            <ul class="components-list">
-                <li draggable="true" @dragstart="dragStart" data-name="Header">
-                    <mt-header fixed title="Header"></mt-header>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Button">
-                    <mt-button type="default">Button</mt-button>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Swipe">
-                    <mint-swipe />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Range">
-                    <mt-range />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Progress">
-                    <mint-progress />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Cell">
-                    <mt-cell title="Cell" value="..."></mt-cell>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Switch">
-                    <mt-switch>Switch</mt-switch>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Field">
-                    <mt-field label="Field" placeholder="placeholder"></mt-field>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Badge">
-                    <mt-badge type="primary">Badge</mt-badge>
-                </li>
-            </ul>
-        </div>
-        <div v-if="activeUI === 'iView-UI'">
-            <ul class="components-list iview-ui">
-                <li draggable="true" @dragstart="dragStart" data-name="Row">
-                    <iview-row />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Button">
-                    <Button size="large">Button</Button>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="ButtonGroup">
-                    <iview-button-group />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Icon">
-                    <Icon type="happy-outline" :size="28" /> icon
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Input">
-                        <Input placeholder="Input"></Input>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Radio">
-                    <Radio>Radio</Radio>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="RadioGroup">
-                    <iview-radio-group />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Checkbox">
-                    <Checkbox>Checkbox</Checkbox>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="iSwitch">
-                    <i-switch></i-switch>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Select">
-                    <iview-select />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Slider">
-                    Slider
-                    <Slider :value="50" style="width:75%;display:inline-block;vertical-align:middle;" />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="DatePicker">
-                    <Date-picker size="large" type="date" placeholder="Date Picker"></Date-picker>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="TimePicker">
-                    <Time-picker size="large" type="time" placeholder="Time Picker"></Time-picker>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="InputNumber">
-                   InputNumber <Input-number :max="10" :min="1" />
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Rate">
-                    <Rate :value="5"/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Form">
-                    <iview-form/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="ColorPicker">
-                    <ColorPicker value="#19be6b"/>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Alert">
-                    <Alert show-icon>Alert</Alert>
-                </li>
-                <li draggable="true" @dragstart="dragStart" data-name="Card">
-                    <Card />
-                </li>
-            </ul>
-        </div>
-        <div v-if="activeUI === 'Element-UI'">
-            <ul class="components-list">
-                <!--                 
-                <li draggable="true" @dragstart="dragStart" data-name="Header">
-                    <mt-header fixed title="Header"></mt-header>
-                </li> 
-                -->
-            </ul>
-        </div>
+
         <div v-if="activeUI==='Common'">
             <ul class="components-list">
                 <li draggable="true" @dragstart="dragStart" data-name="Text">
@@ -246,9 +138,11 @@
     </section>
 </template>
 <script>
+  /**
+   * 获取对应的MuseUI组件集合
+   */
 import museUiList from './list/muse-ui'
-import mintUiList from './list/mint-ui'
-import iViewUiList from './list/iview-ui'
+
 export default {
     name: 'components',
     data() {
@@ -295,9 +189,7 @@ export default {
         }
     },
     components: {
-        ...museUiList,
-        ...mintUiList,
-        ...iViewUiList
+        ...museUiList
     }
 }
 </script>
@@ -327,10 +219,5 @@ export default {
     }
 }
 
-.components-list.iview-ui >li {
-    transform: scale(0.8)translateX(-5%);
-    &:hover {
-        transform: scale(1.1)translateX(10%);
-    }
-}
+
 </style>

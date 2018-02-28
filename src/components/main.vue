@@ -2,12 +2,12 @@
     <div id="app">
         <mu-appbar>
             <div class="title">
-                Vue-Layout
-                <mu-badge class="description" content="可视化布局 " color="#f06292" />
+                Vue-Layout可视化布局
+                <mu-badge class="description" content=" " color="#f06292" />
             </div>
             <mu-icon-button icon="share" slot="right" @click="share.open=true" />
             <mu-icon-button icon="settings" slot="right" @click="setting.open=true" />
-            <mu-icon-button icon=":iconfont icon-github" slot="right" href="https://github.com/jaweii/Vue-Layout" /> 
+            <mu-icon-button icon="save" slot="right" @click="save.open=true" />
         </mu-appbar>
         <mu-row class="main-content">
             <mu-col class="attributes" :width="width.attr" :tablet="width.attr" :desktop="width.attr">
@@ -49,6 +49,13 @@
             <br/>
             <mu-flat-button primary label="关闭" @click="share.open=false" slot="actions" />
         </mu-dialog>
+        <mu-dialog :open="save.open" @close="save.open=false" title="保存" scrollable>
+          <br>
+          <mu-flat-button label="保存" @click="savePage"  />
+          <br>
+          <br/>
+          <mu-flat-button primary label="关闭" @click="save.open=false" slot="actions" />
+        </mu-dialog>
     </div>
 </template>
 <script>
@@ -68,6 +75,9 @@ export default {
                 open: false,
                 url: '',
                 experience: ''
+            },
+            save: {
+              open: false
             },
             selectField: {
                 value: '属性'
@@ -129,10 +139,6 @@ export default {
             switch (this.current.info.ui) {
                 case 'Muse-UI':
                     return window.open('http://www.muse-ui.org/#/' + this.current.info.name.replace(' ', ''))
-                case 'Mint-UI':
-                    return window.open('https://mint-ui.github.io/docs/#/zh-cn/' + this.current.info.name.replace(' ', '-'))
-                case 'iView-UI':
-                    return window.open('https://www.iviewui.com/components/' + this.current.info.name)
                 default:
                     return this.$toast('无文档页')
             }
@@ -174,9 +180,13 @@ export default {
             style.innerHTML = ''
             style.appendChild(textNode)
         },
+        savePage() {
+
+        },
         createShare() {
             let share = new this.$lean.Object('Share')
             share.set('store', this.$store.state)
+            console.log(JSON.stringify(share))
             share.save().then(res => {
                 this.share.url = location.origin + location.pathname + '#/share/' + res.id
                 this.share.experience = location.origin + location.pathname + '#/preview/pc/' + res.id

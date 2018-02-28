@@ -1,3 +1,4 @@
+<!--左侧空间树-->
 <template>
     <section>
         <div v-for="c in components">

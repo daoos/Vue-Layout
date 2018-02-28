@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import preview from './preview'
-//给定模板，和要挂载的元素id，挂载组件   
+/**
+ * 给定模板，和要挂载的元素id，挂载组件
+ */
 var mount = function(id, _component) {
     let components = _Vue.$store.state.components
     let component = components.find(c => c.info.id === id)
@@ -13,7 +15,7 @@ var mount = function(id, _component) {
                     data[key] = _component.attributes[key].value
                 })
             }
-            
+
             if (component.uid) { //销毁旧实例
 
             }

@@ -5,17 +5,7 @@ import store from './store'
 
 import './assets/css/global.css'
 
-//iView-UI
-import iView from 'iview'
-Vue.use(iView)
 
-//Mint-UI
-import { Toast, Indicator } from 'mint-ui'
-import 'mint-ui/lib/style.css'
-Vue.prototype.$toast = Toast
-Vue.prototype.$indicator = Indicator
-import mint from 'mint-ui'
-Vue.use(mint)
 
 //Muse-UI
 import MuseUI from 'muse-ui'
@@ -23,6 +13,9 @@ import 'muse-ui/dist/muse-ui.css'
 // import '@/assets/css/theme-dark.css'
 Vue.use(MuseUI)
 
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
 //为代码文本提供高亮、缩进
 import VueHighlightJS from 'vue-highlightjs'
 Vue.use(VueHighlightJS)

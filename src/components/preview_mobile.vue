@@ -1,3 +1,4 @@
+<!--手机预览界面-->
 <template>
     <section class="preview">
         <!-- 预览视图 -->

@@ -1,3 +1,4 @@
+<!--合并所有的属性设置-->
 <template>
     <mu-content-block>
         <subAttribute v-if="current" :attributes="current.attributes" style="margin-left:-10px;" @update="updateAttribute" />

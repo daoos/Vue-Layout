@@ -1,3 +1,4 @@
+<!--左侧控件属性配置界面-->
 <template>
     <div style="padding-left:10px;">
         <!-- 组件的attributes中包含了组件的属性，如：
@@ -25,9 +26,7 @@
             </mu-select-field>
             <!-- 图标型 (icon) 属性 Muse-UI专用 -->
             <iconPicker v-if="v.type==='icon'" @change="updateAttribute" v-model="v.value" :name="k"/>
-            <!-- 图标型 (ionicon) 属性 iView-UI专用 -->
-            <ioniconPicker v-if="v.type==='ionicon'" @change="updateAttribute" v-model="v.value" :name="k"/>
-            <!-- 颜色型 (color) 属性 -->
+             <!-- 颜色型 (color) 属性 -->
             <colorPicker v-if="v.type==='color'" @change="updateAttribute" v-model="v.value" :name="k"/>
             <!-- 子属性 -->
             <subAttributes v-if="v.children" :keyOfAttr="k" :attributes="v.children" @update="subUpdate" />
@@ -35,9 +34,9 @@
     </div>
 </template>
 <script>
-import iconPicker from './iconPicker'
-import colorPicker from './colorPicker'
-import ioniconPicker from './ioniconPicker'
+import iconPicker from './setting-plugins/icon_picker/iconPicker'
+import colorPicker from './setting-plugins/color_picker/colorPicker'
+import ioniconPicker from './setting-plugins/ionicon_picker/ioniconPicker'
 export default {
     name: 'subAttributes',
     data() {

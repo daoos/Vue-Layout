@@ -4,7 +4,7 @@
 Vue-Layout
 ==
 
-基于UI组件的Vue可视化布局、生成.vue代码的工具。https://jaweii.github.io/Vue-Layout/dist/  
+基于UI组件的Vue可视化布局、生成.vue代码的工具。https://jaweii.github.io/Vue-Layout/dist/
 
 ----------
 
@@ -20,7 +20,7 @@ Vue-Layout
 
 ![demo2][3]
 
-上图的后台布局例子，你可以进入这个页面访问其布局：https://jaweii.github.io/Vue-Layout/dist/#/share/5993d3b05c497d0057c6f2da  
+上图的后台布局例子，你可以进入这个页面访问其布局：https://jaweii.github.io/Vue-Layout/dist/#/share/5993d3b05c497d0057c6f2da
 也可以进入这个页面体验其布局效果：https://jaweii.github.io/Vue-Layout/dist/#/preview/pc/5993d3b05c497d0057c6f2da
 
 
@@ -55,7 +55,7 @@ Vue-Layout
     |     |    ├─index.js                //提供了三个方法，主要使用getTemplate来实现拖入控件后，得到一个组件对象并保存到vuex
     |     |    ├─README.md
     |     |    ├─Muse-UI                 //UI分类目录
-    |     |    |    ├─App Bar.js         //UI组件之一
+    |     |    |    ├─tMuAppbar.js         //UI组件之一
     |     |    |    ├─  ………
     |     |    |    ├─Time Picker.js
     |     |    |    └Tr.js
@@ -81,7 +81,7 @@ Vue-Layout
 
  # 如何拓展UI可视化组件？
 - 1.如果是新增的UI，先在main.js中引入，然后在./src/components/template路径下，创建对应的UI的文件夹（如果没有）；
-- 2.copy已有的类似组件。假设你要拓展mint-ui的导航栏组件，你可以直接复制muse-ui的导航栏（./src/components/template/Muse-UI/App Bar.js）到Mint-UI目录中，修改文件名为Header.js、以及修改其中的部分代码即可：
+- 2.copy已有的类似组件。假设你要拓展mint-ui的导航栏组件，你可以直接复制muse-ui的导航栏（./src/components/template/Muse-UI/tMuAppbar.js）到Mint-UI目录中，修改文件名为Header.js、以及修改其中的部分代码即可：
 
 
   [1]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/static/banner.JPG
@@ -91,4 +91,4 @@ Vue-Layout
   [4]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/docs/images/App%20Bar1.png
   [5]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/docs/images/Header%201.png
   [6]: https://raw.githubusercontent.com/jaweii/Vue-Layout/master/docs/images/getTemplte.png
- 
+
