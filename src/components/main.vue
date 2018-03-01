@@ -1,161 +1,195 @@
 <template>
-    <div id="app">
-        <mu-appbar>
-            <div class="title">
-                Vue-Layout可视化布局
-                <mu-badge class="description" content=" " color="#f06292" />
-            </div>
-            <mu-icon-button icon="share" slot="right" @click="share.open=true" />
-            <mu-icon-button icon="settings" slot="right" @click="setting.open=true" />
-            <mu-icon-button icon="save" slot="right" @click="save.open=true" />
-        </mu-appbar>
-        <mu-row class="main-content">
-            <mu-col class="attributes" :width="width.attr" :tablet="width.attr" :desktop="width.attr">
-                <mu-sub-header class="header">
-                    <mu-select-field class="select-field" autoWidth v-model="selectField.value">
-                        <mu-menu-item title="属性" value="属性">
-                        </mu-menu-item>
-                        <mu-menu-item title="组件树" value="组件树">
-                        </mu-menu-item>
-                    </mu-select-field>
-                    <span><a class="parent-component" v-if="parentComponent" @click="switchComponent">┡ {{parentComponent.info.name}}</a> {{current.info?' - '+current.info.name:''}}</span>
-                </mu-sub-header>
-                <attributes v-if="selectField.value==='属性'" class="attributes-content" />
-                <component-tree v-if="selectField.value==='组件树'" class="component-tree" :components="$store.state.components.filter(c=>!c.parentId)" />
-                <div class="attributes-bottom" v-if="current.info">
-                    <mu-flat-button label="UI文档" @click="openUiDocument" />
-                    <mu-flat-button label="操作" @click="oprate" />
-                </div>
-            </mu-col>
-            <mu-col class="preview" :width="width.preview" :tablet="width.preview" :desktop="width.preview">
-                <preview ref="preview" />
-            </mu-col>
-            <mu-col class="components" :width="width.components" :tablet="width.components" :desktop="width.components">
-                <components ref="components" />
-            </mu-col>
-        </mu-row>
-        <mu-dialog :open="setting.open" @close="setting.open=false" title="设置" scrollable>
-            <br>
-            <mu-checkbox label="选中边框效果" v-model="setting.selectEffect" @change="setSelectEffect" />
-            <br/>
-            <mu-flat-button primary label="关闭" @click="setting.open=false" slot="actions" />
-        </mu-dialog>
-        <mu-dialog :open="share.open" @close="share.open=false" title="分享当前布局" scrollable>
-            <br>
-            <mu-flat-button label="点击生成" @click="createShare" v-if="!share.url" />
-            <br>
-            <mu-text-field v-model="share.url" type="url" :disabled="true" hintText="分享地址" label="分享地址" fullWidth />
-            <mu-text-field v-model="share.experience" type="url" :disabled="true" label="体验地址" hintText="体验地址" fullWidth />
-            <br/>
-            <mu-flat-button primary label="关闭" @click="share.open=false" slot="actions" />
-        </mu-dialog>
-        <mu-dialog :open="save.open" @close="save.open=false" title="保存" scrollable>
-          <br>
-          <mu-flat-button label="保存" @click="savePage"  />
-          <br>
-          <br/>
-          <mu-flat-button primary label="关闭" @click="save.open=false" slot="actions" />
-        </mu-dialog>
-    </div>
+  <div id="app">
+    <mu-appbar>
+      <div class="title">
+        Vue-Layout可视化布局
+        <mu-badge class="description" content=" " color="#f06292"/>
+      </div>
+      <mu-icon-button icon="share" slot="right" @click="share.open=true"/>
+      <mu-icon-button icon="settings" slot="right" @click="setting.open=true"/>
+      <mu-icon-button icon="save" slot="right" @click="save.open=true"/>
+    </mu-appbar>
+    <mu-row class="main-content">
+      <mu-col class="attributes" :width="width.attr" :tablet="width.attr" :desktop="width.attr">
+
+        <mu-sub-header class="header">
+
+
+          <mu-select-field class="select-field" autoWidth v-model="selectField.value">
+            <mu-menu-item title="属性" value="属性">
+            </mu-menu-item>
+            <mu-menu-item title="组件树" value="组件树">
+            </mu-menu-item>
+          </mu-select-field>
+          <span><a class="parent-component" v-if="parentComponent" @click="switchComponent">┡ {{parentComponent.info.name}}</a> {{current.info?' - '+current.info.name:''}}</span>
+        </mu-sub-header>
+        <mu-sub-header v-if="selectField.value==='属性'" class="header">
+          <mu-text-field type="text" hintText="new" v-model="edit.newAttribute" @blur="addNewAttributeToCurrent">
+          </mu-text-field>
+        </mu-sub-header>
+        <attributes v-if="selectField.value==='属性'" class="attributes-content"/>
+        <component-tree v-if="selectField.value==='组件树'" class="component-tree"
+                        :components="$store.state.components.filter(c=>!c.parentId)"/>
+        <div class="attributes-bottom" v-if="current.info">
+          <mu-flat-button label="UI文档" @click="openUiDocument"/>
+          <mu-flat-button label="操作" @click="oprate"/>
+        </div>
+      </mu-col>
+      <mu-col class="preview" :width="width.preview" :tablet="width.preview" :desktop="width.preview">
+        <preview ref="preview"/>
+      </mu-col>
+      <mu-col class="components" :width="width.components" :tablet="width.components" :desktop="width.components">
+        <components ref="components"/>
+      </mu-col>
+    </mu-row>
+    <mu-dialog :open="setting.open" @close="setting.open=false" title="设置" scrollable>
+      <br>
+      <mu-checkbox label="选中边框效果" v-model="setting.selectEffect" @change="setSelectEffect"/>
+      <br/>
+      <mu-flat-button primary label="关闭" @click="setting.open=false" slot="actions"/>
+    </mu-dialog>
+    <mu-dialog :open="share.open" @close="share.open=false" title="分享当前布局" scrollable>
+      <br>
+      <mu-flat-button label="点击生成" @click="createShare" v-if="!share.url"/>
+      <br>
+      <mu-text-field v-model="share.url" type="url" :disabled="true" hintText="分享地址" label="分享地址" fullWidth/>
+      <mu-text-field v-model="share.experience" type="url" :disabled="true" label="体验地址" hintText="体验地址" fullWidth/>
+      <br/>
+      <mu-flat-button primary label="关闭" @click="share.open=false" slot="actions"/>
+    </mu-dialog>
+    <mu-dialog :open="save.open" @close="save.open=false" title="保存" scrollable>
+      <br>
+      <mu-flat-button label="保存" @click="savePage"/>
+      <br>
+      <br/>
+      <mu-flat-button primary label="关闭" @click="save.open=false" slot="actions"/>
+    </mu-dialog>
+  </div>
 </template>
 <script>
-import attributes from './attributes'
-import components from './components'
-import preview from './preview'
-import componentTree from './componentTree.vue'
-export default {
+  import attributes from './attributes'
+  import components from './components'
+  import preview from './preview'
+  import componentTree from './componentTree.vue'
+  import {getTemplate} from './template'
+  // 深度合并
+  import mergeDeep from '@/utils/mergeDeep'
+
+  export default {
     name: 'app',
     data() {
-        return {
-            setting: {
-                open: false,
-                selectEffect: true
-            },
-            share: {
-                open: false,
-                url: '',
-                experience: ''
-            },
-            save: {
-              open: false
-            },
-            selectField: {
-                value: '属性'
-            }
+      return {
+        edit: {
+          newAttribute: ""
+        },
+        setting: {
+          open: false,
+          selectEffect: true
+        },
+        share: {
+          open: false,
+          url: '',
+          experience: ''
+        },
+        save: {
+          open: false
+        },
+        selectField: {
+          value: '属性'
         }
+      }
     },
     mounted() {
-        this.setSelectEffect(this.setting.selectEffect)
+      this.setSelectEffect(this.setting.selectEffect)
     },
     computed: {
-        current: { //预览视图中选中的组件
-            get() {
-                return this.$store.state.currentComponent
-            }
-        },
-        width: { //三栏的宽度设置
-            get() {
-                return this.$store.state.width[0]
-            }
-        },
-        parentComponent: {
-            get() {
-                let component
-                if (this.current.parentId)
-                    component = this.$store.state.components.find(c => c.info.id === this.current.parentId)
-                else
-                    component = null
-                return component
-            }
-        },
-        components: {
-            get() {
-                return this.$store.state.components
-            }
+      current: { //预览视图中选中的组件
+        get() {
+          return this.$store.state.currentComponent
         }
+      },
+      width: { //三栏的宽度设置
+        get() {
+          return this.$store.state.width[0]
+        }
+      },
+      parentComponent: {
+        get() {
+          let component
+          if (this.current.parentId)
+            component = this.$store.state.components.find(c => c.info.id === this.current.parentId)
+          else
+            component = null
+          return component
+        }
+      },
+      components: {
+        get() {
+          return this.$store.state.components
+        }
+      }
     },
     watch: {
-        components: {
-            deep: true,
-            handler(val, oldVal) {
-                //布局修改后将分享的url设为空
-                this.share.url = ''
-                this.share.experience = ''
-            }
+      components: {
+        deep: true,
+        handler(val, oldVal) {
+          //布局修改后将分享的url设为空
+          this.share.url = ''
+          this.share.experience = ''
         }
+      }
     },
     methods: {
-        switchComponent() {
-            let el = document.getElementById(this.parentComponent.info.id)
-            el.click()
-        },
-        oprate(e) {
-            // let components = await this.$store.dispatch('delComponent', this.current.info.id)
-            // this.$refs.preview.fresh()
-            this.$refs.preview.rightClick(e)
+      switchComponent() {
+        let el = document.getElementById(this.parentComponent.info.id)
+        el.click()
+      },
+      oprate(e) {
+        // let components = await this.$store.dispatch('delComponent', this.current.info.id)
+        // this.$refs.preview.fresh()
+        this.$refs.preview.rightClick(e)
 
-        },
-        openUiDocument() {
-            switch (this.current.info.ui) {
-                case 'Muse-UI':
-                    return window.open('http://www.muse-ui.org/#/' + this.current.info.name.replace(' ', ''))
-                default:
-                    return this.$toast('无文档页')
-            }
-        },
-        setSelectEffect(val) {
-            let head = document.head
-            let style = document.getElementById('vue-layout-style')
-            if (!style) {
-                style = document.createElement('style')
-                style.id = 'vue-layout-style'
-                style.type = 'text/css'
-                head.appendChild(style)
-            }
+      },
+      openUiDocument() {
+        switch (this.current.info.ui) {
+          case 'Muse-UI':
+            return window.open('http://www.muse-ui.org/#/' + this.current.info.name.replace(' ', ''))
+          default:
+            return this.$toast('无文档页')
+        }
+      },
+      addNewAttributeToCurrent() {
+        var newAttribute = this.edit.newAttribute
+        if (newAttribute && newAttribute.length > 0) {
+          var components = JSON.parse(JSON.stringify(this.$store.state.components))
+          var index = components.findIndex(component => component.info.id === this.current.info.id)
+          components[index].attributes[newAttribute] = {
+            type: 'text',
+            value: ''
+          }
+          this.$store.commit('setState', {
+            components
+          })
+          this.$store.commit('setState', {
+            currentComponent: components[index]
+          })
+        }
 
-            let cssText
-            if (val) {
-                cssText = `[data-component-active="true"] {
+
+      },
+      setSelectEffect(val) {
+        let head = document.head
+        let style = document.getElementById('vue-layout-style')
+        if (!style) {
+          style = document.createElement('style')
+          style.id = 'vue-layout-style'
+          style.type = 'text/css'
+          head.appendChild(style)
+        }
+
+        let cssText
+        if (val) {
+          cssText = `[data-component-active="true"] {
                               box-shadow: inset 0px 0px 0px 1px pink!important;
                           }
                           [data-component-active]:hover {
@@ -164,8 +198,8 @@ export default {
                           [data-component-active]:focus {
                               box-shadow: inset 0px 0px 0px 1px pink!important;
                           }`
-            } else {
-                cssText = `[data-component-active="true"] {
+        } else {
+          cssText = `[data-component-active="true"] {
                               box-shadow: none;
                               outline:none;
                           }
@@ -175,67 +209,68 @@ export default {
                           [data-component-active]:focus {
                               box-shadow: none;
                           }`
-            }
-            let textNode = document.createTextNode(cssText)
-            style.innerHTML = ''
-            style.appendChild(textNode)
-        },
-        savePage() {
-
-        },
-        createShare() {
-            let share = new this.$lean.Object('Share')
-            share.set('store', this.$store.state)
-            console.log(JSON.stringify(share))
-            share.save().then(res => {
-                this.share.url = location.origin + location.pathname + '#/share/' + res.id
-                this.share.experience = location.origin + location.pathname + '#/preview/pc/' + res.id
-            })
         }
+        let textNode = document.createTextNode(cssText)
+        style.innerHTML = ''
+        style.appendChild(textNode)
+      },
+      savePage() {
+
+      },
+      createShare() {
+        let share = new this.$lean.Object('Share')
+        share.set('store', this.$store.state)
+        console.log(JSON.stringify(share))
+        share.save().then(res => {
+          this.share.url = location.origin + location.pathname + '#/share/' + res.id
+          this.share.experience = location.origin + location.pathname + '#/preview/pc/' + res.id
+        })
+      }
     },
     components: {
-        components,
-        preview,
-        attributes,
-        componentTree
+      components,
+      preview,
+      attributes,
+      componentTree
     }
-}
+  }
 </script>
 <style lang="less" scoped>
-@import '~muse-ui/src/styles/colors.less';
-@previewBG: @deepPurple50;
-* {
+  @import '~muse-ui/src/styles/colors.less';
+
+  @previewBG: @deepPurple50;
+  * {
     -webkit-user-select: none;
-}
+  }
 
-::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     display: none;
-}
+  }
 
-#app {
+  #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
-}
+  }
 
-.title {
+  .title {
     font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
     .description {
-        vertical-align: super;
+      vertical-align: super;
     }
-}
+  }
 
-.main-content>div {
+  .main-content > div {
     transition: all .5s;
-}
+  }
 
-.client-height {
+  .client-height {
     height: 100vh;
     overflow: auto;
-}
+  }
 
-.attributes {
+  .attributes {
     .client-height;
     background-color: @previewBG;
     position: relative;
@@ -244,42 +279,42 @@ export default {
     justify-content: space-between;
     justify-item: center;
     .header {
-        white-space: nowrap;
+      white-space: nowrap;
     }
     .select-field {
-        width: 70px;
-        vertical-align: top;
-        text-align: center;
+      width: 70px;
+      vertical-align: top;
+      text-align: center;
     }
-}
+  }
 
-.attributes-content {
+  .attributes-content {
     flex: 1;
-}
+  }
 
-.component-tree {
+  .component-tree {
     flex: 1;
-}
+  }
 
-.attributes-bottom {
+  .attributes-bottom {
     position: relative;
     text-align: center;
     color: @grey500;
-}
+  }
 
-.preview {
+  .preview {
     .client-height;
     box-shadow: 0 1px 6px rgba(0, 0, 0, .117647), 0 1px 4px rgba(0, 0, 0, .117647);
     z-index: 1;
-}
+  }
 
-.components {
+  .components {
     .client-height;
     background-color: @previewBG;
     overflow-y: scroll;
-}
+  }
 
-.parent-component {
+  .parent-component {
     cursor: pointer;
-}
+  }
 </style>

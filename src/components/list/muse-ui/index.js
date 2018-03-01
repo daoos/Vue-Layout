@@ -1,4 +1,4 @@
-var t_mu_UIs=['t-mu-appbar',
+var t_mu_UIs = ['t-mu-appbar',
   't-mu-shan-ge',
   't-mu-textfield',
   't-mu-flat-button',
@@ -32,11 +32,12 @@ var t_mu_UIs=['t-mu-appbar',
   't-mu-card',
   't-mu-sub-header'
 ];
+
 /**
  * 深度克隆
  */
 function getUIFun(templateFileName) {
-  let res=resolve => {
+  let res = resolve => {
     require(["./" + templateFileName], resolve)
   }
   return res
@@ -46,15 +47,13 @@ function getUIFun(templateFileName) {
  *
  * @type {{}}
  */
-var museUiList = {
-
-}
+var museUiList = {}
 /**
  * 循环加载对应的组件
  */
 for (var i = 0; i < t_mu_UIs.length; i++) {
   var templateName = t_mu_UIs[i];
-  let fnn=getUIFun(templateName)
-   museUiList[[templateName]]=fnn
+  let fnn = getUIFun(templateName)
+  museUiList[[templateName]] = fnn
 }
-export { museUiList,t_mu_UIs}
+export {museUiList, t_mu_UIs}
