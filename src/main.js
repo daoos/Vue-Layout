@@ -12,10 +12,14 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 // import '@/assets/css/theme-dark.css'
 Vue.use(MuseUI)
-
+/* daoos 添加toast*/
 import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 Vue.use(Toast);
+/* daoos 添加vue2-ace*/
+// import editor from "vue2-ace-editor-support-chinese";
+// Vue.use(editor);
+
 //为代码文本提供高亮、缩进
 import VueHighlightJS from 'vue-highlightjs'
 Vue.use(VueHighlightJS)

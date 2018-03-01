@@ -32,7 +32,9 @@ var t_mu_UIs=['t-mu-appbar',
   't-mu-card',
   't-mu-sub-header'
 ];
-// 深度克隆
+/**
+ * 深度克隆
+ */
 function getUIFun(templateFileName) {
   let res=resolve => {
     require(["./" + templateFileName], resolve)
@@ -40,17 +42,19 @@ function getUIFun(templateFileName) {
   return res
 }
 
-
+/**
+ *
+ * @type {{}}
+ */
 var museUiList = {
 
 }
 /**
  * 循环加载对应的组件
  */
-var lus=[]
 for (var i = 0; i < t_mu_UIs.length; i++) {
   var templateName = t_mu_UIs[i];
   let fnn=getUIFun(templateName)
    museUiList[[templateName]]=fnn
 }
-export default museUiList
+export { museUiList,t_mu_UIs}

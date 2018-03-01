@@ -11,8 +11,9 @@
             <mu-sub-header style="white-space:nowrap;">- 组件</mu-sub-header>
         </mu-content-block>
         <div v-if="activeUI === 'Muse-UI'">
-            <ul class="components-list" >
-                <!-- 导航栏 -->
+            <ul id="Muse_UI_id" class="components-list" >
+
+              <!-- 导航栏 -->
                 <li draggable="true" @dragstart="dragStart" data-name="App Bar">
                     <t-mu-appbar />
                 </li>
@@ -139,51 +140,18 @@
     </section>
 </template>
 <script>
-  /**
-   * 获取对应的MuseUI组件集合
-   */
-import museUiList from './list/muse-ui'
-import draggable_li from './draggable_li'
+/**
+ * 获取对应的MuseUI组件集合
+ */
+import Vue from 'vue'
+import {museUiList,t_mu_UIs} from './list/muse-ui'
 
 
 export default {
     name: 'components',
     data() {
         return {
-          t_mu_UIs:['t-mu-appbar',
-            // 't_mu_shan_ge',
-            // 't_mu_textfield',
-            // 't_mu_flat_button',
-            // 't_mu_icon_button',
-            // 't_mu_raised_button',
-            // 't_mu_float_button',
-            // 't_mu_avatar',
-            // 't_mu_icon',
-            // 't_mu_list',
-            // 't_mu_list_item',
-            // 't_mu_grid',
-            // 't_mu_datepicker',
-            // 't_mu_timepicker',
-            // 't_mu_badge',
-            // 't_mu_bottom_nav',
-            // 't_mu_tabs',
-            // 't_mu_breadcrumb',
-            // 't_mu_checkbox',
-            // 't_mu_radio',
-            // 't_mu_switch',
-            // 't_mu_select_field',
-            // 't_mu_pagination',
-            // 't_mu_slider',
-            // 't_mu_divider',
-            // 't_mu_linear_progress',
-            // 't_mu_circular_progress',
-            // 't_mu_back_top',
-            // 't_mu_chip',
-            // 't_mu_paper',
-            // 't_mu_card_header',
-            // 't_mu_card',
-            't-mu-sub-header'
-          ]
+          t_mu_UIs:t_mu_UIs
         }
     },
     mounted() {
@@ -227,7 +195,6 @@ export default {
         }
     },
     components: {
-      draggable_li,
         ...museUiList
     }
 }

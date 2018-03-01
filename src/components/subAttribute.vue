@@ -10,12 +10,12 @@
             }-->
         <div v-if="attr" v-for="(v,k,i) in attr">
             <!-- 文本型（text）属性 -->
-            <mu-text-field v-if="v.type==='text'" :label="k" :name="k" v-model="v.value" @input.native="updateAttribute" type="text" fullWidth/>
+            <mu-text-field v-if="v.type==='text'" :label="k" :name="k" v-model="v.value" @change="updateAttribute" @input.native="updateAttribute" type="text" fullWidth/>
             <!-- 数字型（number）属性 -->
-            <mu-text-field v-if="v.type==='number'" :label="k" :name="k" v-model="v.value" @input.native="updateAttribute" type="number" fullWidth/>
+            <mu-text-field v-if="v.type==='number'" :label="k" :name="k" v-model="v.value" @change="updateAttribute" @input.native="updateAttribute" type="number" fullWidth/>
             <!-- 滑块型 -->
             <small v-if="v.type==='slider'">{{k+': '+v.value}}</small>
-            <mu-slider v-if="v.type==='slider'" v-model="v.value" :step="v.step" :max="v.max" :min="v.min" @mouseup.native="updateAttribute" />
+            <mu-slider v-if="v.type==='slider'" v-model="v.value" :step="v.step" :max="v.max" :min="v.min" @mouseup.native="updateAttribute" @change="updateAttribute" />
             <!--  标签型（label）属性  -->
             <div v-if="v.type==='label'" class="mu-text-field-label">{{v.value}}</div>
             <!--  开关（boolean）属性   -->

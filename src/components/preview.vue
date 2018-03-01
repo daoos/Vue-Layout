@@ -12,12 +12,21 @@
                     <mu-menu-item :title="previewMode==='pc'?'手机模式':'PC模式'" @click="previewMode=previewMode==='pc'?'mobile':'pc'" />
                 </mu-icon-menu>
                 <mu-icon-button style="float:right;" icon=":iconfont icon-css" tooltip="编辑样式" @click="editStyle" />
-                <mu-icon-button style="float:right;" icon="code" tooltip="查看代码" @click="showCode" />
+                <mu-icon-button style="float:right;" icon="code" tooltip="编辑JS" @click="editPageJS" />
+                <mu-icon-button style="float:right;" icon="assignment_turned_in" tooltip="查看代码" @click="showCode" />
+                <mu-icon-button style="float:right;" icon="remove_red_eye" tooltip="预览" @click="showPageView" />
                 <mu-icon-button v-if="$store.state.backupComponents.length" style="float:right;" icon="undo" tooltip="撤销" @click="undo" />
             </div>
             <mu-content-block :class="{'content':true,'active':showType!=='预览'}">
+              <!--<editor v-show="showType==='编辑js'"-->
+                      <!--@init="editorInit"-->
+                      <!--@input="changeData"-->
+                      <!--:value='pagejs'-->
+                      <!--lang="html" theme="chrome" width="100%"  height="100%"-->
+                      <!--overflow="auto" ></editor>-->
                 <pre v-show="showType==='CODE'" v-highlightjs="getSource(components)"><code class="html"></code></pre>
                 <textarea v-show="showType==='编辑样式'" class="css-editor" placeholder=".vue-layout{ ... }" v-model="css"></textarea>
+                <textarea v-show="showType==='编辑js'" class="css-editor" placeholder=".vue-layout{ ... }" v-model="pageJS"></textarea>
             </mu-content-block>
         </mu-paper>
         <!-- 预览视图 -->
@@ -56,6 +65,10 @@ import mount from './mount'
 import '@/assets/css/highlight/default.css'
 import '@/assets/css/highlight/atom-one-light.css'
 
+//import editor from 'vue2-ace'
+//import 'brace/mode/html'
+//import 'brace/theme/github'
+import editor from "vue2-ace-editor-support-chinese";
 // scoped style插件 ，解决webkit不支持scoped的问题
 import scopedCss from 'scopedcss'
 
@@ -70,6 +83,9 @@ export default {
     name: 'preview',
     data() {
         return {
+          editorOptions: {
+            fontSize: '25pt'
+          },
             showType: '预览',
             contextmenu: {
                 trigger: null,
@@ -174,6 +190,18 @@ export default {
 
     },
     methods: {
+//        daoos 添加编辑器初始化
+      editorInit:function () {
+        // 这里需要哪种语言就引用那种，需要那个主题就用哪个。
+        // Import which one you want.
+        require('brace/mode/javascript');
+        require('brace/mode/html');
+        require('brace/theme/github');
+        require('brace/theme/chrome');
+      },
+      changeData: function (context) {
+        this.editData = context;
+      },
         setWidth() { //调整各视图宽度比
             let width = this.width
             let end = width.shift()
@@ -291,7 +319,7 @@ export default {
             }
         },
         fresh() {
-            /*当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，
+            /**当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，
             它默认用 “就地复用” 策略。
             如果数据项的顺序被改变，
             Vue将不是移动 DOM 元素来匹配数据项的顺序，
@@ -444,12 +472,21 @@ export default {
             else
                 this.showType = 'CODE'
         },
+      showPageView() {
+          this.showType = '预览'
+      },
         editStyle() {
             if (this.showType === '编辑样式')
                 this.showType = '预览'
             else
                 this.showType = '编辑样式'
         },
+      editPageJS() {
+        if (this.showType === '编辑JS')
+          this.showType = '预览'
+        else
+          this.showType = '编辑JS'
+      },
         addUserStyle() {
             if (!this.css)
                 return
@@ -587,6 +624,7 @@ export default {
             //清空
             this.$store.commit('setState', {
                 css: '', //用户编辑的自定义css字符串
+                pageJS:'',
                 currentComponent: {}, //预览视图的选中组件
                 components: [], //预览视图的组件树
                 backupComponents: [],
@@ -630,13 +668,24 @@ export default {
                     css: val
                 })
             }
+        },
+      pageJS: {
+        get() {
+          return this.$store.state.pagejs
+        },
+        set(val) {
+          this.$store.commit('setState', {
+            pageJS: val
+          })
         }
+      }
     },
     watch: {
         css(val, oldVal) {
             this.addUserStyle()
         }
-    }
+    },
+  components:{editor}
 }
 </script>
 <style lang="less" scoped>

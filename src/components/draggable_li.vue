@@ -1,22 +1,15 @@
 <!-- Muse-UI图标选择器 -->
-<template>
-    <section>
-
-    </section>
-</template>
+<li :id="t_mu_UI" draggable="true" @dragstart="dragStart" :data-name="t_mu_UI">
+  <!--<div :id="t_mu_UI"/>-->
+  <draggable_li :t_mu_ui="t_mu_UI"/>
+</li>
 <script>
+import Vue from 'vue'
 export default {
   name: 'draggable-li',
-    data() {
-        return {
-          t_mu_ui: ''
-        }
-    },
-  methods:{
-    render: function (createElement, t_mu_ui) {
-      alert(t_mu_ui)
-      return createElement('<'+t_mu_ui+'/>')
-    }
+  template:'<li  draggable="true" @dragstart="dragStart" :data-name="'+this.t_mu_ui+'">'+'<'+this.t_mu_ui+'\/></li>',
+  props: {
+    t_mu_ui:""
   }
 
 }
