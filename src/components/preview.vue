@@ -8,7 +8,7 @@
         <mu-icon-button style="float:right;" icon="fullscreen" tooltip="全屏" @click="fullScreen"/>
         <mu-icon-button style="float:right;" icon="delete" tooltip="清空" @click="empty"/>
         <mu-icon-menu style="float:right;" icon="stay_current_portrait" tooltip="视图"
-                      :targetOrigin="{vertical: 'bottom',horizontal: 'left'}">
+                      :targetOrigin="{vertical: 'bottom',horizontal:'left'}">
           <mu-menu-item title="调整比例" @click="setWidth"/>
           <mu-menu-item :title="previewMode==='pc'?'手机模式':'PC模式'"
                         @click="previewMode=previewMode==='pc'?'mobile':'pc'"/>
@@ -22,19 +22,34 @@
       </div>
       <mu-content-block :class="{'content':true,'active':showType!=='预览'}">
         <editor v-show="showType==='编辑JS'"
-                @init="editorInit" v-model="pageJS"
-                lang="javascript" theme="monokai" width="100%" height="100%"
-                overflow="auto" :options="editorOptions"></editor>
-        <pre v-show="showType==='CODE'" v-highlightjs="getSource(components)"><code class="html"></code></pre>
-
-        <!--<textarea v-show="showType==='编辑样式'" class="css-editor" placeholder=".vue-layout{ ... }" v-model="css"></textarea>-->
+                @init="editorInit"
+                v-model="pageJS"
+                lang="javascript"
+                theme="monokai"
+                width="100%"
+                height="100%"
+                overflow="auto"
+                :options="editorOptions"></editor>
+        <editor v-show="showType==='CODE'"
+                @init="editorInit"
+                @input="changeData"
+                :value='pageEditorText'
+                lang="html"
+                theme="monokai"
+                width="100%"
+                height="100%"
+                overflow="auto"
+                :options="editorOptions"></editor>
         <editor v-show="showType==='编辑样式'"
-                @init="editorInit" v-model="css"
+                @init="editorInit"
+                v-model="css"
                 placeholder=".vue-layout{ ... }"
-                lang="css" theme="monokai" width="100%" height="100%"
-                overflow="auto" :options="editorOptions"></editor>
-        <!--<textarea v-show="showType==='编辑JS'" class="js-editor" placeholder=".vue-layout{ ... }" v-model="pageJS"></textarea>-->
-        <!--<t_vue2_ace_editor v-show="showType==='编辑JS'" @editor-update="changeData" :content="pageJS"></t_vue2_ace_editor>-->
+                lang="css"
+                theme="monokai"
+                width="100%"
+                height="100%"
+                overflow="auto"
+                :options="editorOptions"></editor>
       </mu-content-block>
     </mu-paper>
     <!-- 预览视图 -->
@@ -95,7 +110,11 @@
     name: 'preview',
     data() {
       return {
-        editorOptions: {
+      state:this.$store.state,
+      editorOptions: {
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true,
           fontSize: '25px'
         },
         showType: '预览',
@@ -211,8 +230,27 @@
         require('brace/theme/github');
         require('brace/theme/monokai');
       },
+      /**
+       * 设置自动补全回调函数，value变化实时执行。
+       * @param editor ace editor对象
+       * @param session
+       * @param pos 当前字符位置：row、column
+       * @param prefix 当前编辑字符
+       * @param callback 执行函数
+       */
+      setCompletions (editor, session, pos, prefix, callback) {
+        let wordList = ['aa','aadd','aadd222']
+        callback(null, wordList.map(function (word) {
+          return {
+            caption: word,
+            value: word,
+            meta: 'local'
+          }
+        }))
+      },
       changeData: function (context) {
-        this.editData = context;
+        this.pageEditorText = context;
+        this.$store.state.pageEditorText=context
       },
       setWidth() { //调整各视图宽度比
         let width = this.width
@@ -329,6 +367,7 @@
           }
 
         }
+        this.getSource()
       },
       fresh() {
         /**当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，
@@ -348,7 +387,7 @@
           this.mount()
         }, 0)
 
-
+        this.getSource()
       },
       getComponentNode(node) {
         if (node && node.getAttribute('data-component-active') !== null)
@@ -439,7 +478,8 @@
       selectedSlot() {
         // 必需，勿删，会在ondrop中被重写
       },
-      getSource(components) { //预览视图中所有组件的代码
+      getSource() { //预览视图中所有组件的代码
+        let components = JSON.parse(JSON.stringify(this.$store.state.components))
         let code = `<template><section>`
         components.filter(component => !component.parentId).forEach(component => {
           code += component.template
@@ -470,7 +510,7 @@
         code = code.replace(/ id=".*?"/g, '')
         code = code.replace(/ data-component-active/g, '')
         code = code.replace(/\n\n/g, '\n')
-
+        this.$store.state.pageEditorText=code
         return code
       },
       getParentComponent(component) {
@@ -644,6 +684,7 @@
         this.$store.commit('setState', {
           css: '', //用户编辑的自定义css字符串
           pageJS: '',
+          pageEditorText:"",
           currentComponent: {}, //预览视图的选中组件
           components: [], //预览视图的组件树
           backupComponents: [],
@@ -686,6 +727,7 @@
           this.$store.commit('setState', {
             css: val
           })
+          this.getSource()
         }
       },
       pageJS: {
@@ -696,6 +738,17 @@
           this.$store.commit('setState', {
             pageJS: val
           })
+          this.getSource()
+        }
+      },
+      pageEditorText: {
+        get() {
+          return this.$store.state.pageEditorText
+        },
+        set(val) {
+          this.$store.commit('setState', {
+            pageEditorText: val
+          })
         }
       }
     },
@@ -703,9 +756,9 @@
       css(val, oldVal) {
         this.addUserStyle()
       },
-      pageJS(val, oldVal) {
-        this.addUserStyle()
-      }
+//      pageJS(val, oldVal) {
+//        this.addUserStyle()
+//      }
     },
     components: {editor}
   }
