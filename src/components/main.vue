@@ -27,7 +27,7 @@
           <mu-text-field type="text" hintText="new" v-model="edit.newAttribute" @blur="addNewAttributeToCurrent">
           </mu-text-field>
         </mu-sub-header>
-        <attributes v-if="selectField.value==='属性'" class="attributes-content"/>
+        <attributes v-if="selectField.value==='属性'" :fieldSelectList="fieldSelectArray" class="attributes-content"/>
         <component-tree v-if="selectField.value==='组件树'" class="component-tree"
                         :components="$store.state.components.filter(c=>!c.parentId)"/>
         <div class="attributes-bottom" v-if="current.info">
@@ -75,10 +75,16 @@
   // 深度合并
   import mergeDeep from '@/utils/mergeDeep'
 
+  var fieldSelectListALL = ['1111',
+    '2222',
+    '222442',
+    'zoom_out_map'
+  ]
   export default {
     name: 'app',
     data() {
       return {
+        // fieldSelectList: fieldSelectListALL,
         edit: {
           newAttribute: ""
         },
@@ -103,6 +109,11 @@
       this.setSelectEffect(this.setting.selectEffect)
     },
     computed: {
+      fieldSelectArray: { //预览视图中选中的组件
+        get() {
+          return fieldSelectListALL
+        }
+      },
       current: { //预览视图中选中的组件
         get() {
           return this.$store.state.currentComponent

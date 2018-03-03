@@ -1,5 +1,5 @@
 var ace = require('brace');
-// var languageTools = require("ace/ext/language_tools");
+var languageTools = require('brace/ext/language_tools');
 require(['emmet/emmet'], function (data) {
   window.emmet = data.emmet;
 });
@@ -64,46 +64,25 @@ module.exports = {
     _this.$emit('init', editor)
 
     editor.$blockScrolling = Infinity
-
+    editor.setFontSize(25);
     editor.getSession().setMode('ace/mode/' + lang)
     editor.setTheme('ace/theme/' + theme)
     editor.setValue(this.value, 1)
     editor.setOptions(options);
     // editor.setOption('enableEmmet', true)
-    // set autoComplete
-    // if (autoComplete) {
-    //   var staticWordCompleter = {
-    //     getCompletions: function (editor, session, pos, prefix, callback) {
-    //       _this.$emit('setCompletions', editor, session, pos, prefix, callback)
-    //     }
-    //   }
-    //   editor.completers = [staticWordCompleter]
-    //
-    //   editor.setOptions({
-    //     enableBasicAutocompletion: true,
-    //     enableSnippets: true,
-    //     enableLiveAutocompletion: false,//只能补全
-    //   })
-    // }
+    if (autoComplete) {
+      var staticWordCompleter = {
+        getCompletions: function (editor, session, pos, prefix, callback) {
+          _this.$emit('setCompletions', editor, session, pos, prefix, callback)
+        }
+      }
+      editor.completers.push(staticWordCompleter)
+    }
     editor.setOptions({
           enableBasicAutocompletion: true,
           enableSnippets: true,
           enableLiveAutocompletion: true,//只能补全
         })
-    // languageTools.addCompleter({
-    //   getCompletions: function(editor, session, pos, prefix, callback) {
-    //     callback(null,  [
-    //       {
-    //         name : "test",
-    //         value : "test",
-    //         caption: "test",
-    //         meta: "test",
-    //         type: "local",
-    //         score : 1000 // 让test排在最上面
-    //       }
-    //     ]);
-    //   }
-    // });
     editor.on('change', function () {
       var content = editor.getValue()
       vm.$emit('input', content)

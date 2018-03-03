@@ -23,6 +23,7 @@ const store = new Vuex.Store({
         }],
         pageJS:'',
         pageEditorText:'',
+        jsonData:[],
         css: '', //用户编辑的自定义css字符串
         activeUI:'Muse-UI',
         currentComponent: {}, //预览视图的选中组件

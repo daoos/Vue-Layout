@@ -1,88 +1,102 @@
 <!--左侧控件属性配置界面-->
 <template>
-    <div style="padding-left:10px;">
-        <!-- 组件的attributes中包含了组件的属性，如：
-             attributes = {
-                label: {
-                    type:'text',
-                    value:'按钮'
-                }
-            }-->
-        <div v-if="attr" v-for="(v,k,i) in attr">
-            <!-- 文本型（text）属性 -->
-            <mu-text-field v-if="v.type==='text'" :label="k" :name="k" v-model="v.value" @change="updateAttribute" @input.native="updateAttribute" type="text" fullWidth/>
-            <!-- 数字型（number）属性 -->
-            <mu-text-field v-if="v.type==='number'" :label="k" :name="k" v-model="v.value" @change="updateAttribute" @input.native="updateAttribute" type="number" fullWidth/>
-            <!-- 滑块型 -->
-            <small v-if="v.type==='slider'">{{k+': '+v.value}}</small>
-            <mu-slider v-if="v.type==='slider'" v-model="v.value" :step="v.step" :max="v.max" :min="v.min" @mouseup.native="updateAttribute" @change="updateAttribute" />
-            <!--  标签型（label）属性  -->
-            <div v-if="v.type==='label'" class="mu-text-field-label">{{v.value}}</div>
-            <!--  开关（boolean）属性   -->
-            <mu-switch v-if="v.type==='boolean'" :label="k" v-model="v.value" @change="updateAttribute" labelLeft :style="{width:'100%',marginBottom:'10px'}" />
-            <!--  选择型 (selection) 属性  -->
-            <mu-select-field v-if="v.type==='selection'" v-model="v.value" :label="k" @input="updateAttribute" style="width:100%;">
-                <mu-menu-item v-for="(item,index) in v.items" :value="item" :title="item" :key="index" />
-            </mu-select-field>
-            <!-- 图标型 (icon) 属性 Muse-UI专用 -->
-            <iconPicker v-if="v.type==='icon'" @change="updateAttribute" v-model="v.value" :name="k"/>
-             <!-- 颜色型 (color) 属性 -->
-            <colorPicker v-if="v.type==='color'" @change="updateAttribute" v-model="v.value" :name="k"/>
-            <!-- 子属性 -->
-            <subAttributes v-if="v.children" :keyOfAttr="k" :attributes="v.children" @update="subUpdate" />
-        </div>
+  <div style="padding-left:10px;">
+    <!-- 组件的attributes中包含了组件的属性，如：
+         attributes = {
+            label: {
+                type:'text',
+                value:'按钮'
+            }
+        }-->
+    <div v-if="attr" v-for="(v,k,i) in attr">
+      <!-- 文本型（text）属性 -->
+      <fieldPicker id="text+i" v-if="v.type==='text'" :selectList='subSelectList' :label="k" :name="k" v-model="v.value"
+                   @change="updateAttribute" @input.native="updateAttribute" type="text" fullWidth/>
+      <!--<mu-text-field v-if="v.type==='text'" :label="k" :name="k" v-model="v.value" @change="updateAttribute" @input.native="updateAttribute" type="text" fullWidth/>-->
+      <!-- 数字型（number）属性 -->
+      <mu-text-field v-if="v.type==='number'" :label="k" :name="k" v-model="v.value" @change="updateAttribute"
+                     @input.native="updateAttribute" type="number" fullWidth/>
+      <!-- 滑块型 -->
+      <small v-if="v.type==='slider'">{{k+': '+v.value}}</small>
+      <mu-slider v-if="v.type==='slider'" v-model="v.value" :step="v.step" :max="v.max" :min="v.min"
+                 @mouseup.native="updateAttribute" @change="updateAttribute"/>
+      <!--  标签型（label）属性  -->
+      <div v-if="v.type==='label'" class="mu-text-field-label">{{v.value}}</div>
+      <!--  开关（boolean）属性   -->
+      <mu-switch v-if="v.type==='boolean'" :label="k" v-model="v.value" @change="updateAttribute" labelLeft
+                 :style="{width:'100%',marginBottom:'10px'}"/>
+      <!--  选择型 (selection) 属性  -->
+      <mu-select-field v-if="v.type==='selection'" v-model="v.value" :label="k" @input="updateAttribute"
+                       style="width:100%;">
+        <mu-menu-item v-for="(item,index) in v.items" :value="item" :title="item" :key="index"/>
+      </mu-select-field>
+      <!-- 图标型 (icon) 属性 Muse-UI专用 -->
+      <iconPicker v-if="v.type==='icon'" @change="updateAttribute" v-model="v.value" :name="k"/>
+      <!-- 颜色型 (color) 属性 -->
+      <colorPicker v-if="v.type==='color'" @change="updateAttribute" v-model="v.value" :name="k"/>
+      <!-- 子属性 -->
+      <subAttributes v-if="v.children" :keyOfAttr="k" :attributes="v.children" @update="subUpdate"/>
     </div>
+  </div>
 </template>
 <script>
-import iconPicker from './setting-plugins/icon_picker/iconPicker'
-import colorPicker from './setting-plugins/color_picker/colorPicker'
-import ioniconPicker from './setting-plugins/ionicon_picker/ioniconPicker'
-export default {
+  import iconPicker from './setting-plugins/icon_picker/iconPicker'
+  import colorPicker from './setting-plugins/color_picker/colorPicker'
+  import ioniconPicker from './setting-plugins/ionicon_picker/ioniconPicker'
+  import fieldPicker from './setting-plugins/field_picker/fieldPicker'
+
+  export default {
     name: 'subAttributes',
     data() {
-        return {
-            attr: {}
-        }
+      return {
+        attr: {},
+        subSelectList: []
+      }
     },
     props: {
-        attributes: {
-            type: Object,
-            default: null
-        },
-        keyOfAttr: {
-            type: String,
-            default: null
-        }
+      fieldSelectList: {
+        type: Array,
+        default: null
+      },
+      attributes: {
+        type: Object,
+        default: null
+      },
+      keyOfAttr: {
+        type: String,
+        default: null
+      }
     },
     created() {
-        this.attr = JSON.parse(JSON.stringify(this.attributes))
+      this.attr = JSON.parse(JSON.stringify(this.attributes))
+      this.subSelectList = JSON.parse(JSON.stringify(this.fieldSelectList))
     },
     watch: {
-        attributes: {
-            deep: true,
-            handler(val, oldVal) {
-                this.attr = JSON.parse(JSON.stringify(val))
-            }
+      attributes: {
+        deep: true,
+        handler(val, oldVal) {
+          this.attr = JSON.parse(JSON.stringify(val))
         }
+      }
     },
     methods: {
-        subUpdate(attr) { //收到了子组件的更新
-            Object.assign(this.attr, attr)
-            this.updateAttribute()
+      subUpdate(attr) { //收到了子组件的更新
+        Object.assign(this.attr, attr)
+        this.updateAttribute()
 
-        },
-        updateAttribute() { //提交更新到父组件
-            if (this.keyOfAttr)
-                this.$emit('update', {
-                    [this.keyOfAttr]: {
-                        children: this.attr
-                    }
-                })
-            else this.$emit('update', this.attr)
-        }
+      },
+      updateAttribute() { //提交更新到父组件
+        if (this.keyOfAttr)
+          this.$emit('update', {
+            [this.keyOfAttr]: {
+              children: this.attr
+            }
+          })
+        else this.$emit('update', this.attr)
+      }
     },
     components: {
-        iconPicker,colorPicker,ioniconPicker
+      iconPicker, colorPicker, ioniconPicker, fieldPicker
     }
-}
+  }
 </script>

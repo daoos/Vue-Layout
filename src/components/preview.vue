@@ -14,6 +14,7 @@
                         @click="previewMode=previewMode==='pc'?'mobile':'pc'"/>
         </mu-icon-menu>
         <mu-icon-button style="float:right;" icon=":iconfont icon-css" tooltip="编辑样式" @click="editStyle"/>
+        <mu-icon-button style="float:right;" icon="code" tooltip="DATA" @click="editPageData"/>
         <mu-icon-button style="float:right;" icon="code" tooltip="编辑JS" @click="editPageJS"/>
         <mu-icon-button style="float:right;" icon="extension" tooltip="查看代码" @click="showCode"/>
         <mu-icon-button style="float:right;" icon="remove_red_eye" tooltip="预览" @click="showPageView"/>
@@ -23,8 +24,21 @@
       <mu-content-block :class="{'content':true,'active':showType!=='预览'}">
         <editor v-show="showType==='编辑JS'"
                 @init="editorInit"
+                :autoComplete=true
+                @setCompletions="setCompletions"
                 v-model="pageJS"
                 lang="javascript"
+                theme="monokai"
+                width="100%"
+                height="100%"
+                overflow="auto"
+                :options="editorOptions"></editor>
+        <editor v-show="showType==='DATA'"
+                @init="editorInit"
+                :autoComplete=true
+                @setCompletions="setCompletions"
+                v-model="jsonData"
+                lang="json"
                 theme="monokai"
                 width="100%"
                 height="100%"
@@ -33,6 +47,8 @@
         <editor v-show="showType==='CODE'"
                 @init="editorInit"
                 @input="changeData"
+                :autoComplete=true
+                @setCompletions="setCompletions"
                 :value='pageEditorText'
                 lang="html"
                 theme="monokai"
@@ -43,6 +59,8 @@
         <editor v-show="showType==='编辑样式'"
                 @init="editorInit"
                 v-model="css"
+                :autoComplete=true
+                @setCompletions="setCompletions"
                 placeholder=".vue-layout{ ... }"
                 lang="css"
                 theme="monokai"
@@ -90,11 +108,7 @@
   // 代码高亮样式
   import '@/assets/css/highlight/default.css'
   import '@/assets/css/highlight/atom-one-light.css'
-
   import editor from "../utils/t_vue2_ace_editor";
-  import 'brace/mode/html'
-  import 'brace/mode/javascript'
-  import 'brace/theme/monokai'
   // scoped style插件 ，解决webkit不支持scoped的问题
   import scopedCss from 'scopedcss'
 
@@ -106,15 +120,25 @@
   //取随机id
   import guid from '@/utils/guid'
 
+  function isJsonString(str) {
+    try {
+      if (typeof JSON.parse(str) == "object") {
+        return true;
+      }
+    } catch (e) {
+    }
+    return false;
+  }
+
   export default {
     name: 'preview',
     data() {
       return {
-      state:this.$store.state,
-      editorOptions: {
-        enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: true,
+        state: this.$store.state,
+        editorOptions: {
+          enableBasicAutocompletion: true,
+          enableSnippets: true,
+          enableLiveAutocompletion: true,
           fontSize: '25px'
         },
         showType: '预览',
@@ -226,9 +250,11 @@
         // 这里需要哪种语言就引用那种，需要那个主题就用哪个。
         // Import which one you want.
         require('brace/mode/javascript');
+        require('brace/mode/css');
+        require('brace/mode/json');
         require('brace/mode/html');
-        require('brace/theme/github');
         require('brace/theme/monokai');
+        require('brace/ext/language_tools');
       },
       /**
        * 设置自动补全回调函数，value变化实时执行。
@@ -238,8 +264,8 @@
        * @param prefix 当前编辑字符
        * @param callback 执行函数
        */
-      setCompletions (editor, session, pos, prefix, callback) {
-        let wordList = ['aa','aadd','aadd222']
+      setCompletions(editor, session, pos, prefix, callback) {
+        let wordList = ['aa', 'aadd', 'aadd222']
         callback(null, wordList.map(function (word) {
           return {
             caption: word,
@@ -250,7 +276,11 @@
       },
       changeData: function (context) {
         this.pageEditorText = context;
-        this.$store.state.pageEditorText=context
+        this.$store.state.pageEditorText = context
+      },
+      changeJsonData: function (context) {
+        this.jsonData = context;
+        this.$store.state.jsonData = context
       },
       setWidth() { //调整各视图宽度比
         let width = this.width
@@ -510,7 +540,7 @@
         code = code.replace(/ id=".*?"/g, '')
         code = code.replace(/ data-component-active/g, '')
         code = code.replace(/\n\n/g, '\n')
-        this.$store.state.pageEditorText=code
+        this.$store.state.pageEditorText = code
         return code
       },
       getParentComponent(component) {
@@ -533,6 +563,10 @@
       },
       showPageView() {
         this.showType = '预览'
+      },
+
+      editPageData() {
+        this.showType = 'DATA'
       },
       editStyle() {
         if (this.showType === '编辑样式')
@@ -684,7 +718,8 @@
         this.$store.commit('setState', {
           css: '', //用户编辑的自定义css字符串
           pageJS: '',
-          pageEditorText:"",
+          jsonData: [],
+          pageEditorText: "",
           currentComponent: {}, //预览视图的选中组件
           components: [], //预览视图的组件树
           backupComponents: [],
@@ -741,6 +776,21 @@
           this.getSource()
         }
       },
+      jsonData: {
+        get() {
+          return JSON.stringify(this.$store.state.jsonData) ? JSON.stringify(this.$store.state.jsonData) : '{"autoFields":["22","3334"]}'
+        },
+        set(val) {
+          if (isJsonString(val)) {
+            this.$store.commit('setState', {
+              jsonData: JSON.parse(val)
+            })
+          }
+
+          this.getSource()
+        }
+      },
+
       pageEditorText: {
         get() {
           return this.$store.state.pageEditorText

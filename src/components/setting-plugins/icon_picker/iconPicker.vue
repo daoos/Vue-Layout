@@ -2,7 +2,7 @@
 <template>
     <section>
         <div class="form" style="display:flex;">
-            <mu-text-field :hintText="name" v-model="iconName" @input="change" />
+            <mu-text-field  :hintText="name" v-model="iconName" @input="change" />
             <mu-flat-button label="图标" @click="openPopover" ref="button" />
         </div>
         <mu-popover :trigger="trigger" :open="open" @close="closePopover">
